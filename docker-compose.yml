@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: ./App
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://localhost:3000
+
+  backend:
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - JWT_ISSUER=apiYoApp
+      - JWT_AUDIENCE=appYoApp
+      - JWT_SECRET=PHPBetterThanJs
+      - JWT_EXPIRES_IN=30d
+      - JWT_ALGORITHM=HS256
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_URI=mongodb://localhost:27017/yo-app-db
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
