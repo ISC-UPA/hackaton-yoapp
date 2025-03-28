@@ -1,0 +1,315 @@
+type: collection.insomnia.rest/5.0
+name: Api
+meta:
+  id: wrk_84eb8dce8b024fc8b45149353112e0cb
+  created: 1742767390561
+  modified: 1742767390561
+collection:
+  - name: Cards
+    meta:
+      id: fld_e4587e9247a34fb4bc29741d579def41
+      created: 1742767405542
+      modified: 1742794131762
+      sortKey: -1742767405542
+    children:
+      - url: http://localhost:3000/cards/12121212221
+        name: get Card
+        meta:
+          id: req_5ea5f2f6bdbd4231839e70236e9349b4
+          created: 1742767407812
+          modified: 1742774607952
+          isPrivate: falsei
+          sortKey: -1742767407812
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/cards/
+        name: get Cards
+        meta:
+          id: req_ba127a4b20e343dca61b71c70cd4e5ab
+          created: 1742767423576
+          modified: 1742767926627
+          isPrivate: false
+          sortKey: -1742767407912
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/cards/
+        name: create Card
+        meta:
+          id: req_344033666f074cf9b77474ba49e88f59
+          created: 1742767457338
+          modified: 1742777273369
+          isPrivate: false
+          sortKey: -1742767408012
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"cardNumber": "12121212221",
+            	"type": "Juan2"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/cards/12121212
+        name: update Card
+        meta:
+          id: req_a614f05efd944f368deb6cb82f9886bd
+          created: 1742767468302
+          modified: 1742784490280
+          isPrivate: false
+          sortKey: -1742767408112
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"assignedTo": "asas"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/cards/12121a
+        name: New Request
+        meta:
+          id: req_1d76677592774ca0b68c0aa53a92cec9
+          created: 1742778662296
+          modified: 1742778746238
+          isPrivate: false
+          sortKey: -1742778662296
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: User
+    meta:
+      id: fld_8e8fa9e5a6a74045aef5ef4924e07a4a
+      created: 1742784958275
+      modified: 1742784958275
+      sortKey: -1742784958275
+    children:
+      - url: http://localhost:3000/users/alexbernal
+        name: Update User
+        meta:
+          id: req_97e0d69fd5a64dd49a37e14ad8a6a373
+          created: 1742784951479
+          modified: 1742786703634
+          isPrivate: false
+          sortKey: -1742785087275
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"alexbernal07"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/users/
+        name: Create User
+        meta:
+          id: req_302c78265aff4b0d83bda69d080a01c0
+          created: 1742784962211
+          modified: 1742786004636
+          isPrivate: false
+          sortKey: -1742785087375
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"alexbernal",
+            	"password":"121212"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/users/alexbernal
+        name: Get User
+        meta:
+          id: req_1e4c830289d54154b6cc79e675d26c6e
+          created: 1742784963615
+          modified: 1742786641611
+          isPrivate: false
+          sortKey: -1742785087475
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Bus
+    meta:
+      id: fld_c90263208a3744e395f0a9a2e69073c4
+      created: 1742794148971
+      modified: 1742794148971
+      sortKey: -1742794148971
+    children:
+      - url: http://localhost:3000/buses
+        name: Get Bus
+        meta:
+          id: req_aad17ac1e09c424eacfbae45894c00be
+          created: 1742794151448
+          modified: 1742794291378
+          isPrivate: false
+          sortKey: -1742794151448
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/buses
+        name: Get Buses
+        meta:
+          id: req_6b227d79826245fa8005a7303cef0e91
+          created: 1742794171033
+          modified: 1742794221688
+          isPrivate: false
+          sortKey: -1742794171033
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/buses
+        name: Create Bus
+        meta:
+          id: req_e1c76334876340179d4f9832cd0dd4b4
+          created: 1742794183228
+          modified: 1742794293359
+          isPrivate: false
+          sortKey: -1742794183228
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/buses
+        name: Update Bus
+        meta:
+          id: req_186d40040ed449f290096ca67a78244b
+          created: 1742794194681
+          modified: 1742794295220
+          isPrivate: false
+          sortKey: -1742794194681
+        method: PATCH
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_551ce17e29a92b428a7afbd2e3bba708b003b309
+    created: 1742767390566
+    modified: 1742767390566
+environments:
+  name: Base Environment
+  meta:
+    id: env_551ce17e29a92b428a7afbd2e3bba708b003b309
+    created: 1742767390564
+    modified: 1742767494575
+    isPrivate: false

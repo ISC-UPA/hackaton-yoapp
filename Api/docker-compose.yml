@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mongo_network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express-container
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 12345
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: 12345
+    networks:
+      - mongo_network
+
+volumes:
+  mongo_data: {}
+
+networks:
+  mongo_network: {}
