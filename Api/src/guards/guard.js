@@ -4,20 +4,20 @@ const guard = async (req, res, next) => {
 
     const header = req.headers["authorization"];
     
-    if (!header) return res.status(401).json({ error: "Unauthorized 1" });
+    if (!header) return res.status(401).json({ error: "Unauthorized" });
 
     try {
 
         const decodedToken = authService.validateToken(header);
 
-        if (!decodedToken) return res.status(401).json({ error: "Unauthorized 2" });
+        if (!decodedToken) return res.status(401).json({ error: "Unauthorized" });
 
-        //req.phoneNumber = decodedToken.data.sub;
-
+        req.body.phoneNumber = decodedToken.data.sub.toString();
+        console.log("Decoded token:", req.body.phoneNumber);
         next();
     } catch (error) {
         console.error("Error in guard middleware:", error);
-        return res.status(401).json({ error: "Unauthorized 3" });
+        return res.status(401).json({ error: "Unauthorized" });
     }
 };
 

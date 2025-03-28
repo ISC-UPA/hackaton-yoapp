@@ -15,11 +15,11 @@ const cardSchema = new Schema({
     },
     assignedTo: {
         type: String,
-        required: false,
+        required: true,
     },
     cardbalance: {
         type: Number,
-        required: true,
+        required: false,
     },
     phoneNumber: {
         type: String,

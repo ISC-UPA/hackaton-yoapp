@@ -2,9 +2,9 @@ import cardsService from './card.service.js';
 
 const getCards = async (req, res) => {
 
-    if (!req.params.phoneNumber) return res.status(400).json({error: 'Phone number is required'});
-
-    const response = await cardsService.getCards(req.params.phoneNumber);
+    if (!req.body.phoneNumber) return res.status(400).json({error: 'Phone number is required'});
+    console.log(req.body.phoneNumber);
+    const response = await cardsService.getCards(req.body.phoneNumber);
 
     if (response === 'No cards found') return res.status(404).json({error: 'No cards found'});
 

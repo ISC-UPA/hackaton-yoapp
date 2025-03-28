@@ -11,9 +11,10 @@ const port = process.env.PORT || 3000;
 connect();
 
 app.use(express.json());
+app.use('/auth', routes.authRouter);
+app.use(guard);
 app.use('/cards', routes.cardsRouter);
 app.use('/users', routes.userRouter);
-app.use('/auth', routes.authRouter);
 //app.use('/buses', routes.busRouter);
 app.use('/payment/bank-cards', routes.bankCardRouter);
 

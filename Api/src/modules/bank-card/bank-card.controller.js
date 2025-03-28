@@ -25,15 +25,12 @@ const getBankCard = async (req, res) => {
 };
 
 const createBankCard = async (req, res) => {
-    try {
-        const response = await bankCardService.createBankCard({...req.body, email: req.user.email});
+    const response = await bankCardService.createBankCard(req.body);
 
-        if (response === 'Error creating bank card') return res.status(500).json({message: 'Error creating bank card'});
+    if (response === 'Error creating bank card') return res.status(500).json({message: 'Error creating bank card'});
 
-        res.status(201).json(response);
-    } catch (error) {
-        res.status(500).json({message: 'Error creating bank card'});
-    }
+    return res.status(201).json(response);
+    
 };
 
 const updateBankCard = async (req, res) => {

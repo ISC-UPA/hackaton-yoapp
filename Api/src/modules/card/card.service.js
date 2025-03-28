@@ -2,7 +2,7 @@ import Card from "../../models/card.model.js";
 
 const getCards = async (phoneNumber) => {
     try {
-
+        console.log('phoneNumber', phoneNumber);
         const cards = await Card.find({phoneNumber});
 
         if (!cards.length) return 'No cards found';
