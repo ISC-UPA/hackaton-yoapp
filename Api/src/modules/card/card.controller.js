@@ -17,7 +17,6 @@ const getCard = async (req, res) => {
     const response = await cardsService.getCard(cardNumber);
     
     if (response === 'No card found') return res.status(404).json({ error: response });
-    
 
     res.send(response);
 

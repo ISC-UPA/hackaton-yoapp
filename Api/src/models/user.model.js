@@ -14,7 +14,7 @@ const userSchema = new Schema({
         required: true,
     },
     temporarySmsCode: {
-        type: Number,
+        type: String,
         required: false,
     },
 }, {versionKey: false});

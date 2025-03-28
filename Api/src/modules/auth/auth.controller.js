@@ -1,33 +1,53 @@
 import authService from "./auth.service.js";
 
-const responseErros = ['No user found', 'Invalid password', 'Error sending SMS code', 'Invalid SMS code', 'User already exists', 'Error creating user'];
+const responseErros = [
+    'No user found',
+    'User not found',
+    'User Already exists',
+    'Invalid password',
+    'User not verified'
+];
 
-const preLogin = (req, res) => {
+const preLogin = async (req, res) => {
 
     const data = req.body;
-    const response = authService.preLogin(data);
+    const response = await authService.preLogin(data);
+    if(response != 'SMS code sent') return res.status(400).json({ error: response });
+    
+    return res.status(200).json({ smsCode: response });
+};
 
-    console.log('response', response);
+const login = async (req, res) => {
+    const data = req.body;
+    const response = await authService.login(data);
+
+    if(responseErros.includes(response)) return res.status(400).json({ error: response });
+    
+    return res.status(200).json({ token: response });
+};
+
+const preRegister = async (req, res) => {
+    const data = req.body;
+    const response = await authService.preRegister(data);
 
     if(responseErros.includes(response)) return res.status(400).json({ error: response });
     
     return res.status(200).json({ smsCode: response });
-
 };
 
-const login = (req, res) => {
+const register = async (req, res) => {
     const data = req.body;
-    const response = authService.login(data);
+    const response = await authService.register(data);
 
-    if(responseErros.includes(response)) {
-        return res.status(400).json({ error: response });
-    }
-
+    if(responseErros.includes(response)) return res.status(400).json({ error: response });
+    
     return res.status(200).json({ token: response });
-}
+};
 
 
 export default {
     preLogin,
-    login
+    login,
+    preRegister,
+    register
 };

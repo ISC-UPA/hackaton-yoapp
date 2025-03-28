@@ -11,7 +11,6 @@ const port = process.env.PORT || 3000;
 connect();
 
 app.use(express.json());
-//app.use(guard);
 app.use('/cards', routes.cardsRouter);
 app.use('/users', routes.userRouter);
 app.use('/auth', routes.authRouter);

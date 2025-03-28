@@ -1,22 +1,23 @@
 import authService from "../modules/auth/auth.service.js";
 
-const guard = (req, res, next) => {
+const guard = async (req, res, next) => {
 
     const header = req.headers["authorization"];
-
-    if (!header) return res.status(401).json({ error: "Unauthorized" });
+    
+    if (!header) return res.status(401).json({ error: "Unauthorized 1" });
 
     try {
 
-        const decodedToken = authService.validateToken(token);
+        const decodedToken = authService.validateToken(header);
 
-        if (!decodedToken) return res.status(401).json({ error: "Unauthorized" });
+        if (!decodedToken) return res.status(401).json({ error: "Unauthorized 2" });
 
-        req.userId = decodedToken.data.sub;
+        //req.phoneNumber = decodedToken.data.sub;
 
         next();
     } catch (error) {
-        return res.status(401).json({ error: "Unauthorized" });
+        console.error("Error in guard middleware:", error);
+        return res.status(401).json({ error: "Unauthorized 3" });
     }
 };
 

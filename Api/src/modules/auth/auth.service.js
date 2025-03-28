@@ -3,14 +3,14 @@ import bcrypt from 'bcrypt';
 
 import userService from '../user/user.service.js';
 
-const generateToken = (id) => {
+const generateToken = (sub) => {
 
     const payload = {
         iss: process.env.JWT_ISSUER,
         aud: process.env.JWT_AUDIENCE,
         iat: Math.floor(Date.now() / 1000),
         data: {
-            sub: id,
+            sub,
         },
     };
     
@@ -19,7 +19,6 @@ const generateToken = (id) => {
         algorithm: process.env.JWT_ALGORITHM
     });
 
-    console.log('token', token);
 
     return token;
     
@@ -27,11 +26,14 @@ const generateToken = (id) => {
 
 const validateToken = (token) => {
     try {
-        return jwt.verify(token, process.env.JWT_SECRET, {
+        const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET, {
             algorithms: [process.env.JWT_ALGORITHM],
             issuer: process.env.JWT_ISSUER,
             audience: process.env.JWT_AUDIENCE
         });
+
+        return tokenDecoded;
+
     } catch (error) {
         console.error('Error in validateToken:', error);
         return null;
@@ -56,58 +58,90 @@ const hashPassword = async (password) => {
 const preLogin = async (data) => {
     try {
         const user = await userService.getUser(data.phoneNumber);
-        if (!user) return { error: 'No user found' };
-        console.log('response', user);
+        if (user === 'No user found') return 'No user found'; 
 
         const passwordMatch = await comparePasswords(data.pin, user.pin);
-        if (!passwordMatch) return { error: 'Invalid password' };
+        if (!passwordMatch) return 'Invalid password';
 
         const temporarySmsCode = String(Math.floor(1000 + Math.random() * 9000));
 
         const updatedUser = await userService.updateUser(user.phoneNumber, { temporarySmsCode });
-        if (!updatedUser) return { error: 'Error sending SMS code' };
+        if (updatedUser !== 'Updated user') return 'Error sending SMS code'; 
 
         console.log(`Temporary SMS code: ${temporarySmsCode}`);
-        return { success: 'SMS code sent' };
+
+        return 'SMS code sent';
     } catch (error) {
-        return { error: 'Internal server error' };
+        console.error('Error in preLogin:', error);
+        return 'Internal server error';
     }
 };
 
 const login = async (data) => {
     try {
         const user = await userService.getUser(data.phoneNumber);
-        if (!user) return { error: 'No user found' };
 
-        console.log('response', user);
+        if (!user) return 'No user found';
 
-        if (user.temporarySmsCode !== data.temporarySmsCode) return { error: 'Invalid SMS code' };
+        if(!user.temporarySmsCode) return 'No SMS code sent';
 
         const updateResponse = await userService.updateUser(user.phoneNumber, { temporarySmsCode: '' });
-
-        console.log('responseU', updateResponse);
         
-        if (!updateResponse) return { error: 'Error updating user' };
+        if (!updateResponse) return 'Error updating user' ;
 
-        const token = generateToken(user.userSub);
-        console.log('token', token);
         return token;
-
     } catch (error) {
-        return { error: 'Internal server error' };
+        return 'Internal server error' ;
     }
 };
 
+const preRegister = async (data) =>{
+    try {
+        const user = await userService.getUser(data.phoneNumber);
+        if (user !== 'No user found') return 'User already exists';
+
+        const hashedPassword = await hashPassword(data.pin);
+
+        const newUser = {
+            ...data,
+            pin: hashedPassword,
+            temporarySmsCode: String(Math.floor(1000 + Math.random() * 9000)),
+        };
+
+        const createdUser = await userService.createUser(newUser);
+
+        if (createdUser === 'Error creating user') return 'Error creating user';
+
+        console.log(`Temporary SMS code: ${newUser.temporarySmsCode}`);
+
+        return 'SMS code sent';
+    } catch (error) {
+        console.error('Error in preRegister:', error);
+        return 'Internal server error';
+    }
+}
 
 const register = async (data) => { 
 
-    const user = await userService.createUser(data);
+    try {
+        const user = await userService.getUser(data.phoneNumber);
+        if (!user) return 'No user found';
 
-    if (user === 'User already exists') return 'User already exists';
+        if (!user.temporarySmsCode) return 'No SMS code sent';
 
-    if (user === 'Error creating user') return 'Error creating user';
+        if (data.temporarySmsCode !== user.temporarySmsCode) return 'Invalid SMS code';
 
-    return 'User created';
+        const updatedUser = await userService.updateUser(user.phoneNumber, { temporarySmsCode: '' });
+        
+        if (updatedUser === 'Error updating user') return 'Error updating user';
+
+        const token = generateToken(user.phoneNumber);
+
+        return token;
+    } catch (error) {
+        console.error('Error in register:', error);
+        return 'Internal server error';
+    }
 };
 
 export default {
@@ -117,5 +151,6 @@ export default {
     hashPassword,
     preLogin,
     login,
+    preRegister,
     register
 };
