@@ -3,7 +3,7 @@ import cardsController from './card.controller.js';
 import cardsMiddleware from './card.middleware.js';
 const cardsRouter = Router();
 
-cardsRouter.get('/:phoneNumber', cardsController.getCards);
+cardsRouter.get('/', cardsController.getCards);
 cardsRouter.get('/card/:cardNumber', cardsController.getCard);
 cardsRouter.post('/', cardsMiddleware.validateNewCard ,cardsController.createCard);
 cardsRouter.patch('/:cardNumber',cardsMiddleware.validateUpdateCard, cardsController.updateCard);

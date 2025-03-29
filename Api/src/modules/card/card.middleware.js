@@ -8,7 +8,9 @@ function validateNewCard(req, res, next) {
 
 
 function validateUpdateCard(req, res, next) {
-    const { cardNumber, assignedTo, phoneNumber, cardbalance } = req.body;
+    const {assignedTo, phoneNumber, cardbalance } = req.body;
+
+    const cardNumber = req.params.cardNumber;
 
     if (!cardNumber) return res.status(400).json({ error: 'Card number is required' });
     

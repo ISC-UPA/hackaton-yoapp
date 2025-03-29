@@ -2,3 +2,4 @@ node_modules/
 cacathon/
 .env
 package-lock.json
+.gitignore

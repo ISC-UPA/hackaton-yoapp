@@ -12,6 +12,8 @@ import Animated, {
 import { ThemedView } from '@/components/ThemedView';
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+
 
 const HEADER_HEIGHT = 250;
 
@@ -46,8 +48,10 @@ export default function ParallaxScrollView({
     };
   });
 
+  const tabBarHeight = useBottomTabBarHeight?.() || 0;
+
   return (
-    <ThemedView style={[styles.container]}>
+    <ThemedView style={[styles.container, { marginBottom: tabBarHeight }]}>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -73,16 +77,16 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: Dimensions.get('window').height*0.22,
+    height: Dimensions.get('window').height * 0.22,
     overflow: 'hidden',
   },
 
   content: {
     flex: 1,
-    padding: Dimensions.get('window').height*0.035,
+    padding: Dimensions.get('window').height * 0.035,
     paddingTop: 0,
     gap: 16,
     overflow: 'hidden',
   },
-  
+
 });

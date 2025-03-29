@@ -21,30 +21,28 @@ const Register = () => {
     const [phone, setPhone] = React.useState('');
     const [pin, setPin] = React.useState('');
 
+   
 
-    function enviarDatos() {
-        axios.post('http://192.168.2.2:3000/auth/preregister/', {
-            phoneNumber: phone,
-            pin: pin
-        })
-        .then(async function (response) { 
-            console.log(response);
-    
+    async function enviarDatos(phone: string, pin: string): Promise<void> {
+        try {
+            const response = await axios.post('http://192.168.2.2:3000/auth/preregister/', {
+                phoneNumber: phone,
+                pin: pin
+            });
+
+            console.log('Respuesta del servidor:', response.data);
+
             // Guardar el teléfono en AsyncStorage
-            try {
-                await AsyncStorage.setItem('PhoneNumber', phone);
-                console.log('Número de teléfono guardado en AsyncStorage');
-            } catch (error) {
-                console.error('Error guardando el dato:', error);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    }
-    
+            await AsyncStorage.setItem('PhoneNumber', phone);
+            console.log('Número de teléfono guardado en AsyncStorage');
 
-    
+        } catch (error: any) {
+            console.error('Error en la solicitud:', error.response?.data || error.message);
+        }
+    }
+
+        
+        
 
     return (
         <ThemedView>
@@ -68,11 +66,19 @@ const Register = () => {
             keyboardType="numeric"
             />
 
+            <ThemedText type="default" >
+                {phone}
+            </ThemedText>
+
+            <ThemedText type="default" >
+                {pin}
+            </ThemedText>
+
             <ThemedView style={ButtonStyles.buttonContainer}>    
 
                 <Link asChild style={ButtonStyles.Button} href={'/(screen)/sms-code'}>
                 <Pressable onPress={() => {
-                    enviarDatos();  // Primero envía los datos
+                    enviarDatos(phone, pin);  // Primero envía los datos
                 }}>
                     <ThemedText type="defaultSemiBold">Siguiente</ThemedText>
                 </Pressable>
@@ -113,9 +119,6 @@ const styles = StyleSheet.create({
 export default Register;
 
 
-function saveData() {
-    throw new Error('Function not implemented.');
-}
 /*
             <TextInput
             style={styles.input}

@@ -24,34 +24,39 @@ const Sms = () => {
         try {
             // Recuperar el número de teléfono de AsyncStorage
             const phoneNumber = await AsyncStorage.getItem('PhoneNumber');
-
+    
             if (!phoneNumber) {
-                console.error('No se encontró el número de teléfono en AsyncStorage');
+                console.error('Error: No se encontró el número de teléfono en AsyncStorage');
                 return;
             }
-
+    
             // Enviar la solicitud al servidor con el número y el código SMS
             const response = await axios.post('http://192.168.2.2:3000/auth/register/', {
                 phoneNumber: phoneNumber,
                 temporarySmsCode: sms
             });
-
-            if (response.data?.token) {
-                try {
-                    await AsyncStorage.setItem('token', response.data.token);
-                    console.log('Token guardado en AsyncStorage');
-                } catch (error) {
-                    console.error('Error guardando el token:', error);
-                }
-            } else {
-                console.error('La respuesta del servidor no contiene un token válido');
-            }
-
+    
             console.log('Respuesta del servidor:', response.data);
-        } catch (error) {
-            console.error('Error en la solicitud:', error);
+    
+            // Verificar si la respuesta contiene un token
+            if (response.data?.token) {
+                await AsyncStorage.setItem('token', response.data.token);
+                console.log('Token guardado en AsyncStorage');
+            } else {
+                console.error('Error: La respuesta del servidor no contiene un token válido');
+            }
+        } catch (error: any) {
+            // Manejo de errores en la solicitud
+            if (error.response) {
+                console.error('Error en la solicitud:', error.response.data);
+            } else if (error.request) {
+                console.error('No se recibió respuesta del servidor:', error.request);
+            } else {
+                console.error('Error desconocido:', error.message);
+            }
         }
     }
+    
 
 
 
