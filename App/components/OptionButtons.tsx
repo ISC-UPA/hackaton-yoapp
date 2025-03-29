@@ -38,6 +38,7 @@ const OptionButtons = () => {
                     <ThemedText type="defaultSemiBold">   Localizar</ThemedText>
                 </Pressable>
             </Link>
+
         </ThemedView>
     );
 }

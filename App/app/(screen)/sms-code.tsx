@@ -7,15 +7,18 @@ import { Link } from 'expo-router';
 
 import ParallaxScrollValidate from '@/components/ParallaxScrollValidate';
 import ValidateScreen from '@/components/ValidateScreen';
+import TitleComponent from '@/components/ui/TitleComponent';
+import MapComponent from '@/components/mapComponent';
 
-import Register from '../../components/Register';
+import { useNavigation } from 'expo-router';
+import { useEffect } from 'react';
+import Sms from '../../components/Sms';
 
 export const profileSize = Dimensions.get('window').width*0.15;
 export const iconSize = Dimensions.get('window').width*0.07;
 
 
-const Index = () => {
-
+const SmsCode = () => {
         
     return (
 
@@ -28,7 +31,7 @@ const Index = () => {
 
             {/**--------------------------------------------------------------------------------------------------------------- */}
 
-            <Register />
+            <Sms />
 
             {/**--------------------------------------------------------------------------------------------------------------- */}
 
@@ -75,4 +78,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Index;
+export default SmsCode;

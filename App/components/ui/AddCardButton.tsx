@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, StyleSheet, Platform, View, Dimensions, ImageBackground } from 'react-native';
+import { Image, Text, StyleSheet, Platform, View, Dimensions, ImageBackground, Pressable } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -9,6 +9,7 @@ import { largeButtonStyles } from '@/components/ui/largeButtonStyles';
 import { IconStyles } from '@/components/ui/IconStyles';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Link } from 'expo-router';
 
 export const profileSize = Dimensions.get('window').width*0.15;
 export const iconSize = Dimensions.get('window').width*0.07;
@@ -16,10 +17,12 @@ export const iconSize = Dimensions.get('window').width*0.07;
 
 const AddCardButton = () => {
     return (
-        <ThemedView style={largeButtonStyles.largeButton}>
-            <MaterialCommunityIcons name="credit-card-plus-outline" size={iconSize} style={IconStyles.iconElememnt}  color={useThemeColor({ light: 'black', dark: 'white' }, 'text')} />
-            <ThemedText type="defaultSemiBold">   Agregar Tarjeta</ThemedText>
-        </ThemedView>
+        <Link href={'/(screen)/new-card'}>
+            <Pressable style={largeButtonStyles.largeButton}>
+                <MaterialCommunityIcons name="credit-card-plus-outline" size={iconSize} style={IconStyles.iconElememnt}  color={useThemeColor({ light: 'black', dark: 'white' }, 'text')} />
+                <ThemedText type="defaultSemiBold">   Agregar Tarjeta</ThemedText>
+            </Pressable>
+        </Link>
     );
 }
 

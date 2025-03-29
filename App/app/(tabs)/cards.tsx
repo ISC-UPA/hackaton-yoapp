@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 
 import React from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ParallaxScrollViewV2 from '@/components/ParallaxScrollViewV2';
 import HeaderConfigV2 from '@/components/HeaderConfigV2';
@@ -11,9 +12,10 @@ import PaddingSpace from '@/components/ui/paddingSpace';
 import YovoyCardInfo from '@/components/yovoyCardInfo';
 import AddCardButton from '@/components/ui/AddCardButton';
 
+
 const Cards = () => {
     
-    const card1 = {
+    /*const card1 = {
         cardNumber: '123456789',
         cardbalance: 102,
     }
@@ -28,22 +30,32 @@ const Cards = () => {
 
     const cards = [card1, card2, card3];
     
+    
+    */
+    
 
-    /*
+    
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
         const fetchCards = async () => {
+            const token = await AsyncStorage.getItem('token');
+
             try {
-                const {data} = await axios.get('http://192.168.2.2:3000/cards/449');
-                setCards(data); // Ensure your API returns an array
+                const {data} = await axios.get('http://192.168.2.2:3000/cards/', {
+                        headers: {
+                    authorization: `${token}`,
+                },
+                });
+                
+                setCards(data); 
             } catch (error) {
                 console.log(' fetching cards');
             }
         };
 
         fetchCards();
-    }, []);    */
+    }, []);    
 
     return (
         <ParallaxScrollViewV2 headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }} headerImage={<HeaderConfigV2 />}>
